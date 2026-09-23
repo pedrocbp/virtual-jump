@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/main/Main.tscn" id="1_main"]
+[ext_resource type="Resource" path="res://resources/levels/level20_config.tres" id="2_config"]
+[ext_resource type="PackedScene" path="res://scenes/platforms/MovingPlatform.tscn" id="3_moving"]
+[ext_resource type="Script" path="res://scripts/levels/level_layout.gd" id="4_layout"]
+
+[node name="Level20" type="Node2D"]
+script = ExtResource("4_layout")
+platform_positions = PackedVector2Array(160, 520, 180, 430, 110, 340, 230, 250, 180, 160, 120, 70, 230, -20, 180, -110, 120, -200, 200, -290)
+disabled_platform_indices = PackedInt32Array(1, 4, 7)
+goal_position = Vector2(200, -350)
+
+[node name="Main" parent="." instance=ExtResource("1_main")]
+level_config = ExtResource("2_config")
+
+[node name="MovingPlatformTwo" parent="." instance=ExtResource("3_moving")]
+position = Vector2(180, 430)
+movement_axis = Vector2(1, 0)
+travel_distance = 35.0
+movement_speed = 1.2
+
+[node name="MovingPlatformFive" parent="." instance=ExtResource("3_moving")]
+position = Vector2(180, 160)
+movement_axis = Vector2(0, -1)
+travel_distance = 10.0
+movement_speed = 1.4
+
+[node name="MovingPlatformEight" parent="." instance=ExtResource("3_moving")]
+position = Vector2(180, -110)
+movement_axis = Vector2(-1, 0)
+travel_distance = 35.0
+movement_speed = 1.6

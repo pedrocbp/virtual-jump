@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/main/Main.tscn" id="1_main"]
+[ext_resource type="Resource" path="res://resources/levels/level33_config.tres" id="2_config"]
+[ext_resource type="Script" path="res://scripts/levels/level_layout.gd" id="3_layout"]
+[ext_resource type="PackedScene" path="res://scenes/platforms/FallingPlatform.tscn" id="4_item"]
+
+[node name="Level33" type="Node2D"]
+script = ExtResource("3_layout")
+platform_positions = PackedVector2Array(110, 520, 220, 435, 100, 350, 220, 265, 110, 180, 220, 95, 110, 10, 220, -75, 110, -160, 200, -245)
+disabled_platform_indices = PackedInt32Array(3)
+goal_position = Vector2(150, -305)
+
+[node name="Main" parent="." instance=ExtResource("1_main")]
+level_config = ExtResource("2_config")
+
+[node name="FallingPlatform1" parent="." instance=ExtResource("4_item")]
+position = Vector2(220, 265)
+fall_delay = 0.40

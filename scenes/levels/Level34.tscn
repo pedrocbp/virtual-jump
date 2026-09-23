@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/main/Main.tscn" id="1_main"]
+[ext_resource type="Resource" path="res://resources/levels/level34_config.tres" id="2_config"]
+[ext_resource type="Script" path="res://scripts/levels/level_layout.gd" id="3_layout"]
+[ext_resource type="PackedScene" path="res://scenes/platforms/TemporaryPlatform.tscn" id="4_item"]
+[ext_resource type="PackedScene" path="res://scenes/obstacles/WindField.tscn" id="5_item"]
+
+[node name="Level34" type="Node2D"]
+script = ExtResource("3_layout")
+platform_positions = PackedVector2Array(160, 520, 90, 435, 205, 350, 80, 265, 215, 180, 100, 95, 220, 10, 100, -75, 220, -160, 160, -245)
+disabled_platform_indices = PackedInt32Array(4)
+goal_position = Vector2(160, -305)
+
+[node name="Main" parent="." instance=ExtResource("1_main")]
+level_config = ExtResource("2_config")
+
+[node name="TemporaryPlatform1" parent="." instance=ExtResource("4_item")]
+position = Vector2(215, 180)
+active_duration = 3.20
+inactive_duration = 1.00
+
+[node name="WindField2" parent="." instance=ExtResource("5_item")]
+position = Vector2(180, 300)
+zone_size = Vector2(230, 140)
+direction = -1.00
+strength = 60.00

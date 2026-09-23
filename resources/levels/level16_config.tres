@@ -1,0 +1,11 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/levels/level_config.gd" id="1_config"]
+
+[resource]
+script = ExtResource("1_config")
+level_number = 16
+display_name = "Fase 16 - movimento horizontal"
+has_hazards = false
+silver_time = 38.0
+gold_time = 29.0

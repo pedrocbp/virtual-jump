@@ -1,0 +1,26 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/main/Main.tscn" id="1_main"]
+[ext_resource type="Resource" path="res://resources/levels/level28_config.tres" id="2_config"]
+[ext_resource type="PackedScene" path="res://scenes/platforms/BreakablePlatform.tscn" id="3_breakable"]
+[ext_resource type="PackedScene" path="res://scenes/obstacles/MovingSaw.tscn" id="4_saw"]
+[ext_resource type="Script" path="res://scripts/levels/level_layout.gd" id="5_layout"]
+
+[node name="Level28" type="Node2D"]
+script = ExtResource("5_layout")
+platform_positions = PackedVector2Array(180, 520, 100, 430, 220, 340, 100, 250, 220, 160, 90, 70, 220, -20, 100, -110, 220, -200, 170, -290)
+disabled_platform_indices = PackedInt32Array(3)
+goal_position = Vector2(200, -350)
+
+[node name="Main" parent="." instance=ExtResource("1_main")]
+level_config = ExtResource("2_config")
+
+[node name="BreakablePlatformFour" parent="." instance=ExtResource("3_breakable")]
+position = Vector2(100, 250)
+
+[node name="MovingSawOne" parent="." instance=ExtResource("4_saw")]
+position = Vector2(240, 25)
+movement_axis = Vector2(1, 0)
+travel_distance = 35.0
+movement_speed = 1.3
+rotation_speed = 4.5

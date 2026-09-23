@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/main/Main.tscn" id="1_main"]
+[ext_resource type="Resource" path="res://resources/levels/level05_config.tres" id="2_config"]
+[ext_resource type="PackedScene" path="res://scenes/platforms/TemporaryPlatform.tscn" id="3_temporary"]
+[ext_resource type="Script" path="res://scripts/levels/level_layout.gd" id="4_layout"]
+
+[node name="Level05" type="Node2D"]
+script = ExtResource("4_layout")
+platform_positions = PackedVector2Array(180, 520, 90, 430, 200, 340, 100, 250, 210, 160, 120, 70, 230, -20, 130, -110, 240, -200, 170, -290)
+disabled_platform_indices = PackedInt32Array(4)
+goal_position = Vector2(170, -350)
+
+[node name="Main" parent="." instance=ExtResource("1_main")]
+level_config = ExtResource("2_config")
+
+[node name="TemporaryPlatformOne" parent="." instance=ExtResource("3_temporary")]
+position = Vector2(210, 160)
+active_duration = 2.8
+inactive_duration = 1.2

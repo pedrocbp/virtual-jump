@@ -1,0 +1,22 @@
+[gd_scene load_steps=6 format=3]
+[ext_resource type="PackedScene" path="res://scenes/main/Main.tscn" id="1"]
+[ext_resource type="Resource" path="res://resources/levels/level52_config.tres" id="2"]
+[ext_resource type="Script" path="res://scripts/levels/level_layout.gd" id="3"]
+[ext_resource type="PackedScene" path="res://scenes/platforms/FallingPlatform.tscn" id="4"]
+[ext_resource type="PackedScene" path="res://scenes/obstacles/RetractableSpikes.tscn" id="5"]
+[node name="Level52" type="Node2D"]
+script = ExtResource("3")
+platform_positions = PackedVector2Array(170, 520, 250, 435, 145, 350, 235, 265, 130, 180, 220, 95, 120, 10, 215, -75, 125, -160, 190, -245)
+disabled_platform_indices = PackedInt32Array(5)
+goal_position = Vector2(190, -305)
+[node name="Main" parent="." instance=ExtResource("1")]
+level_config = ExtResource("2")
+[node name="RetractableSpikes1" parent="." instance=ExtResource("5")]
+position = Vector2(260, 241)
+start_offset = 0.5
+[node name="FallingPlatform1" parent="." instance=ExtResource("4")]
+position = Vector2(220, 95)
+fall_delay = 0.5
+[node name="RetractableSpikes2" parent="." instance=ExtResource("5")]
+position = Vector2(100, -184)
+start_offset = 1.4

@@ -1,0 +1,9 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/levels/level_config.gd" id="1"]
+[resource]
+script = ExtResource("1")
+level_number = 51
+display_name = "Fase 51 - Órbita em movimento"
+has_hazards = true
+silver_time = 54.0
+gold_time = 39.0

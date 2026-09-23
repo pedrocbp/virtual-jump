@@ -1,0 +1,11 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/levels/level_config.gd" id="1_config"]
+
+[resource]
+script = ExtResource("1_config")
+level_number = 19
+display_name = "Fase 19 - movimentos combinados"
+has_hazards = false
+silver_time = 44.0
+gold_time = 34.0

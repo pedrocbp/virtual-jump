@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/main/Main.tscn" id="1_main"]
+[ext_resource type="Resource" path="res://resources/levels/level02_config.tres" id="2_config"]
+[ext_resource type="Script" path="res://scripts/levels/level_layout.gd" id="3_layout"]
+
+[node name="Level02" type="Node2D"]
+script = ExtResource("3_layout")
+platform_positions = PackedVector2Array(110, 520, 230, 435, 115, 350, 245, 265, 130, 180, 250, 95, 120, 10, 230, -75, 100, -160, 220, -245)
+goal_position = Vector2(220, -310)
+
+[node name="Main" parent="." instance=ExtResource("1_main")]
+level_config = ExtResource("2_config")

@@ -1,0 +1,28 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/main/Main.tscn" id="1_main"]
+[ext_resource type="Resource" path="res://resources/levels/level26_config.tres" id="2_config"]
+[ext_resource type="PackedScene" path="res://scenes/platforms/SmallPlatform.tscn" id="3_small"]
+[ext_resource type="PackedScene" path="res://scenes/obstacles/Spike.tscn" id="4_spike"]
+[ext_resource type="Script" path="res://scripts/levels/level_layout.gd" id="5_layout"]
+
+[node name="Level26" type="Node2D"]
+script = ExtResource("5_layout")
+platform_positions = PackedVector2Array(170, 520, 90, 430, 200, 340, 110, 250, 220, 160, 130, 70, 230, -20, 130, -110, 220, -200, 160, -290)
+disabled_platform_indices = PackedInt32Array(2, 5, 8)
+goal_position = Vector2(160, -350)
+
+[node name="Main" parent="." instance=ExtResource("1_main")]
+level_config = ExtResource("2_config")
+
+[node name="SmallPlatformThree" parent="." instance=ExtResource("3_small")]
+position = Vector2(200, 340)
+[node name="SmallPlatformSix" parent="." instance=ExtResource("3_small")]
+position = Vector2(130, 70)
+[node name="SmallPlatformNine" parent="." instance=ExtResource("3_small")]
+position = Vector2(220, -200)
+
+[node name="SpikeLower" parent="." instance=ExtResource("4_spike")]
+position = Vector2(95, 226)
+[node name="SpikeUpper" parent="." instance=ExtResource("4_spike")]
+position = Vector2(135, -134)

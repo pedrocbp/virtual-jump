@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/main/Main.tscn" id="1_main"]
+[ext_resource type="Resource" path="res://resources/levels/level36_config.tres" id="2_config"]
+[ext_resource type="Script" path="res://scripts/levels/level_layout.gd" id="3_layout"]
+[ext_resource type="PackedScene" path="res://scenes/platforms/SmallPlatform.tscn" id="4_item"]
+[ext_resource type="PackedScene" path="res://scenes/platforms/FallingPlatform.tscn" id="5_item"]
+
+[node name="Level36" type="Node2D"]
+script = ExtResource("3_layout")
+platform_positions = PackedVector2Array(160, 520, 100, 435, 210, 350, 130, 265, 180, 180, 220, 95, 120, 10, 220, -75, 120, -160, 200, -245)
+disabled_platform_indices = PackedInt32Array(0, 2, 4, 6, 8)
+goal_position = Vector2(200, -305)
+
+[node name="Main" parent="." instance=ExtResource("1_main")]
+level_config = ExtResource("2_config")
+
+[node name="SmallPlatform1" parent="." instance=ExtResource("4_item")]
+position = Vector2(160, 520)
+
+[node name="SmallPlatform2" parent="." instance=ExtResource("4_item")]
+position = Vector2(210, 350)
+
+[node name="FallingPlatform3" parent="." instance=ExtResource("5_item")]
+position = Vector2(180, 180)
+fall_delay = 0.40
+
+[node name="SmallPlatform4" parent="." instance=ExtResource("4_item")]
+position = Vector2(120, 10)
+
+[node name="SmallPlatform5" parent="." instance=ExtResource("4_item")]
+position = Vector2(120, -160)

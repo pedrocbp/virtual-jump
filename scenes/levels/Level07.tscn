@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/main/Main.tscn" id="1_main"]
+[ext_resource type="Resource" path="res://resources/levels/level07_config.tres" id="2_config"]
+[ext_resource type="PackedScene" path="res://scenes/obstacles/DangerBlock.tscn" id="3_block"]
+[ext_resource type="Script" path="res://scripts/levels/level_layout.gd" id="4_layout"]
+
+[node name="Level07" type="Node2D"]
+script = ExtResource("4_layout")
+platform_positions = PackedVector2Array(100, 520, 220, 430, 100, 340, 220, 250, 110, 160, 230, 70, 120, -20, 235, -110, 115, -200, 220, -290)
+goal_position = Vector2(220, -350)
+
+[node name="Main" parent="." instance=ExtResource("1_main")]
+level_config = ExtResource("2_config")
+
+[node name="DangerBlockOne" parent="." instance=ExtResource("3_block")]
+position = Vector2(230, 404)
+
+[node name="DangerBlockTwo" parent="." instance=ExtResource("3_block")]
+position = Vector2(225, 44)

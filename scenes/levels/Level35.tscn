@@ -1,0 +1,33 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/main/Main.tscn" id="1_main"]
+[ext_resource type="Resource" path="res://resources/levels/level35_config.tres" id="2_config"]
+[ext_resource type="Script" path="res://scripts/levels/level_layout.gd" id="3_layout"]
+[ext_resource type="PackedScene" path="res://scenes/platforms/MovingPlatform.tscn" id="4_item"]
+[ext_resource type="PackedScene" path="res://scenes/platforms/SmallPlatform.tscn" id="5_item"]
+[ext_resource type="PackedScene" path="res://scenes/obstacles/IntermittentLaser.tscn" id="6_item"]
+
+[node name="Level35" type="Node2D"]
+script = ExtResource("3_layout")
+platform_positions = PackedVector2Array(170, 520, 80, 435, 205, 350, 85, 265, 215, 180, 95, 95, 215, 10, 90, -75, 215, -160, 150, -245)
+disabled_platform_indices = PackedInt32Array(5, 7)
+goal_position = Vector2(170, -305)
+
+[node name="Main" parent="." instance=ExtResource("1_main")]
+level_config = ExtResource("2_config")
+
+[node name="MovingPlatform1" parent="." instance=ExtResource("4_item")]
+position = Vector2(155, 95)
+travel_distance = 25.00
+movement_speed = 1.30
+movement_axis = Vector2(1, 0)
+
+[node name="SmallPlatform2" parent="." instance=ExtResource("5_item")]
+position = Vector2(90, -75)
+
+[node name="IntermittentLaser3" parent="." instance=ExtResource("6_item")]
+position = Vector2(190, 307.5)
+beam_length = 90.00
+inactive_duration = 2.00
+warning_duration = 0.65
+active_duration = 1.00

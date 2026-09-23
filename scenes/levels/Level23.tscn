@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/main/Main.tscn" id="1_main"]
+[ext_resource type="Resource" path="res://resources/levels/level23_config.tres" id="2_config"]
+[ext_resource type="PackedScene" path="res://scenes/obstacles/MovingSaw.tscn" id="3_saw"]
+[ext_resource type="Script" path="res://scripts/levels/level_layout.gd" id="4_layout"]
+
+[node name="Level23" type="Node2D"]
+script = ExtResource("4_layout")
+platform_positions = PackedVector2Array(170, 520, 90, 430, 220, 340, 100, 250, 230, 160, 110, 70, 250, -20, 120, -110, 230, -200, 170, -290)
+goal_position = Vector2(210, -350)
+
+[node name="Main" parent="." instance=ExtResource("1_main")]
+level_config = ExtResource("2_config")
+
+[node name="MovingSawLower" parent="." instance=ExtResource("3_saw")]
+position = Vector2(300, 385)
+movement_axis = Vector2(1, 0)
+travel_distance = 35.0
+movement_speed = 1.2
+rotation_speed = 4.5
+
+[node name="MovingSawUpper" parent="." instance=ExtResource("3_saw")]
+position = Vector2(300, -65)
+movement_axis = Vector2(1, 0)
+travel_distance = 35.0
+movement_speed = 1.4
+rotation_speed = -4.5

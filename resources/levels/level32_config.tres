@@ -1,0 +1,11 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/levels/level_config.gd" id="1_config"]
+
+[resource]
+script = ExtResource("1_config")
+level_number = 32
+display_name = "Fase 32 - Sinal de alerta"
+has_hazards = true
+silver_time = 42.0
+gold_time = 30.0

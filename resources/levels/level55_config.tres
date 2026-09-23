@@ -1,0 +1,9 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/levels/level_config.gd" id="1"]
+[resource]
+script = ExtResource("1")
+level_number = 55
+display_name = "Fase 55 - Órbita ao vento"
+has_hazards = true
+silver_time = 56.0
+gold_time = 41.0

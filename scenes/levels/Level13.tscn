@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/main/Main.tscn" id="1_main"]
+[ext_resource type="Resource" path="res://resources/levels/level13_config.tres" id="2_config"]
+[ext_resource type="PackedScene" path="res://scenes/platforms/SmallPlatform.tscn" id="3_small"]
+[ext_resource type="Script" path="res://scripts/levels/level_layout.gd" id="4_layout"]
+
+[node name="Level13" type="Node2D"]
+script = ExtResource("4_layout")
+platform_positions = PackedVector2Array(160, 520, 90, 435, 180, 350, 100, 265, 190, 180, 110, 95, 200, 10, 120, -75, 210, -160, 160, -245)
+disabled_platform_indices = PackedInt32Array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+goal_position = Vector2(160, -310)
+
+[node name="Main" parent="." instance=ExtResource("1_main")]
+level_config = ExtResource("2_config")
+
+[node name="SmallPlatformOne" parent="." instance=ExtResource("3_small")]
+position = Vector2(160, 520)
+[node name="SmallPlatformTwo" parent="." instance=ExtResource("3_small")]
+position = Vector2(90, 435)
+[node name="SmallPlatformThree" parent="." instance=ExtResource("3_small")]
+position = Vector2(180, 350)
+[node name="SmallPlatformFour" parent="." instance=ExtResource("3_small")]
+position = Vector2(100, 265)
+[node name="SmallPlatformFive" parent="." instance=ExtResource("3_small")]
+position = Vector2(190, 180)
+[node name="SmallPlatformSix" parent="." instance=ExtResource("3_small")]
+position = Vector2(110, 95)
+[node name="SmallPlatformSeven" parent="." instance=ExtResource("3_small")]
+position = Vector2(200, 10)
+[node name="SmallPlatformEight" parent="." instance=ExtResource("3_small")]
+position = Vector2(120, -75)
+[node name="SmallPlatformNine" parent="." instance=ExtResource("3_small")]
+position = Vector2(210, -160)
+[node name="SmallPlatformTen" parent="." instance=ExtResource("3_small")]
+position = Vector2(160, -245)

@@ -1,0 +1,22 @@
+[gd_scene load_steps=6 format=3]
+[ext_resource type="PackedScene" path="res://scenes/main/Main.tscn" id="1"]
+[ext_resource type="Resource" path="res://resources/levels/level51_config.tres" id="2"]
+[ext_resource type="Script" path="res://scripts/levels/level_layout.gd" id="3"]
+[ext_resource type="PackedScene" path="res://scenes/platforms/MovingPlatform.tscn" id="4"]
+[ext_resource type="PackedScene" path="res://scenes/obstacles/OrbitalSaw.tscn" id="5"]
+[node name="Level51" type="Node2D"]
+script = ExtResource("3")
+platform_positions = PackedVector2Array(170, 520, 95, 435, 205, 350, 115, 265, 220, 180, 130, 95, 225, 10, 135, -75, 220, -160, 160, -245)
+disabled_platform_indices = PackedInt32Array(4)
+goal_position = Vector2(160, -305)
+[node name="Main" parent="." instance=ExtResource("1")]
+level_config = ExtResource("2")
+[node name="MovingPlatform1" parent="." instance=ExtResource("4")]
+position = Vector2(220, 180)
+travel_distance = 25.0
+movement_speed = 1.1
+[node name="OrbitalSaw1" parent="." instance=ExtResource("5")]
+position = Vector2(270, 310)
+orbit_radius = 28.0
+orbit_speed = 1.1
+start_angle = 0.7

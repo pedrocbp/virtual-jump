@@ -1,0 +1,23 @@
+[gd_scene load_steps=6 format=3]
+[ext_resource type="PackedScene" path="res://scenes/main/Main.tscn" id="1"]
+[ext_resource type="Resource" path="res://resources/levels/level56_config.tres" id="2"]
+[ext_resource type="Script" path="res://scripts/levels/level_layout.gd" id="3"]
+[ext_resource type="PackedScene" path="res://scenes/platforms/ImpulsePlatform.tscn" id="4"]
+[ext_resource type="PackedScene" path="res://scenes/obstacles/IntermittentLaser.tscn" id="5"]
+[node name="Level56" type="Node2D"]
+script = ExtResource("3")
+platform_positions = PackedVector2Array(170, 520, 245, 435, 145, 350, 245, 265, 130, 180, 220, 95, 120, 10, 215, -75, 120, -160, 185, -245)
+disabled_platform_indices = PackedInt32Array(3)
+goal_position = Vector2(185, -305)
+[node name="Main" parent="." instance=ExtResource("1")]
+level_config = ExtResource("2")
+[node name="ImpulsePlatform1" parent="." instance=ExtResource("4")]
+position = Vector2(245, 265)
+direction = -1
+impulse_speed = 290.0
+[node name="IntermittentLaser1" parent="." instance=ExtResource("5")]
+position = Vector2(310, 307.5)
+beam_length = 70.0
+inactive_duration = 2.1
+warning_duration = 0.7
+active_duration = 0.9

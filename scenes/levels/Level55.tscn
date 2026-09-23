@@ -1,0 +1,23 @@
+[gd_scene load_steps=6 format=3]
+[ext_resource type="PackedScene" path="res://scenes/main/Main.tscn" id="1"]
+[ext_resource type="Resource" path="res://resources/levels/level55_config.tres" id="2"]
+[ext_resource type="Script" path="res://scripts/levels/level_layout.gd" id="3"]
+[ext_resource type="PackedScene" path="res://scenes/obstacles/WindField.tscn" id="4"]
+[ext_resource type="PackedScene" path="res://scenes/obstacles/OrbitalSaw.tscn" id="5"]
+[node name="Level55" type="Node2D"]
+script = ExtResource("3")
+platform_positions = PackedVector2Array(170, 520, 95, 435, 195, 350, 110, 265, 215, 180, 125, 95, 220, 10, 135, -75, 220, -160, 160, -245)
+goal_position = Vector2(160, -305)
+[node name="Main" parent="." instance=ExtResource("1")]
+level_config = ExtResource("2")
+[node name="WindField1" parent="." instance=ExtResource("4")]
+position = Vector2(180, 385)
+zone_size = Vector2(220, 130)
+direction = 1
+strength = 45.0
+[node name="OrbitalSaw1" parent="." instance=ExtResource("5")]
+position = Vector2(65, 50)
+orbit_radius = 27.0
+orbit_speed = 1.05
+start_angle = 2.2
+clockwise = false

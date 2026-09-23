@@ -1,0 +1,18 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/main/Main.tscn" id="1_main"]
+[ext_resource type="Resource" path="res://resources/levels/level04_config.tres" id="2_config"]
+[ext_resource type="PackedScene" path="res://scenes/platforms/BreakablePlatform.tscn" id="3_breakable"]
+[ext_resource type="Script" path="res://scripts/levels/level_layout.gd" id="4_layout"]
+
+[node name="Level04" type="Node2D"]
+script = ExtResource("4_layout")
+platform_positions = PackedVector2Array(100, 520, 220, 430, 120, 340, 240, 250, 130, 160, 230, 70, 120, -20, 235, -110, 125, -200, 220, -290)
+disabled_platform_indices = PackedInt32Array(4)
+goal_position = Vector2(220, -350)
+
+[node name="Main" parent="." instance=ExtResource("1_main")]
+level_config = ExtResource("2_config")
+
+[node name="BreakablePlatformOne" parent="." instance=ExtResource("3_breakable")]
+position = Vector2(130, 160)

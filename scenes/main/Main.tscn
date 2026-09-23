@@ -1,0 +1,69 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="1_player"]
+[ext_resource type="PackedScene" path="res://scenes/platforms/NormalPlatform.tscn" id="2_platform"]
+[ext_resource type="Script" path="res://scripts/systems/vertical_camera.gd" id="3_camera"]
+[ext_resource type="Script" path="res://scripts/levels/level_controller.gd" id="4_level"]
+[ext_resource type="PackedScene" path="res://scenes/levels/FinishArea.tscn" id="5_finish"]
+[ext_resource type="Resource" path="res://resources/levels/level01_config.tres" id="6_config"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
+size = Vector2(360, 20)
+
+[node name="Main" type="Node2D"]
+script = ExtResource("4_level")
+level_config = ExtResource("6_config")
+
+[node name="Floor" type="StaticBody2D" parent="."]
+position = Vector2(180, 620)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+shape = SubResource("RectangleShape2D_floor")
+
+[node name="Visual" type="Polygon2D" parent="Floor"]
+polygon = PackedVector2Array(-180, -10, 180, -10, 180, 10, -180, 10)
+color = Color(0.36, 0.78, 0.58, 1)
+
+[node name="PlatformOne" parent="." instance=ExtResource("2_platform")]
+position = Vector2(100, 520)
+
+[node name="PlatformTwo" parent="." instance=ExtResource("2_platform")]
+position = Vector2(250, 430)
+
+[node name="PlatformThree" parent="." instance=ExtResource("2_platform")]
+position = Vector2(120, 340)
+
+[node name="PlatformFour" parent="." instance=ExtResource("2_platform")]
+position = Vector2(240, 250)
+
+[node name="PlatformFive" parent="." instance=ExtResource("2_platform")]
+position = Vector2(110, 160)
+
+[node name="PlatformSix" parent="." instance=ExtResource("2_platform")]
+position = Vector2(250, 70)
+
+[node name="PlatformSeven" parent="." instance=ExtResource("2_platform")]
+position = Vector2(120, -20)
+
+[node name="PlatformEight" parent="." instance=ExtResource("2_platform")]
+position = Vector2(240, -110)
+
+[node name="PlatformNine" parent="." instance=ExtResource("2_platform")]
+position = Vector2(110, -200)
+
+[node name="PlatformTen" parent="." instance=ExtResource("2_platform")]
+position = Vector2(250, -290)
+
+[node name="Goal" parent="." instance=ExtResource("5_finish")]
+position = Vector2(250, -350)
+
+[node name="Player" parent="." instance=ExtResource("1_player")]
+position = Vector2(180, 560)
+
+[node name="SpawnPoint" type="Marker2D" parent="."]
+position = Vector2(180, 560)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(180, 320)
+enabled = true
+script = ExtResource("3_camera")

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/levels/level_config.gd" id="1_config"]
+
+[resource]
+script = ExtResource("1_config")
+level_number = 26
+display_name = "Fase 26 - precisão e espinhos"
+has_hazards = true
+silver_time = 48.0
+gold_time = 37.0
