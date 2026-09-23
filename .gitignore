@@ -1,0 +1,13 @@
+# Artefatos gerados
+build/
+.godot/
+android/build/.gradle/
+android/build/build/
+
+# Nunca versionar chaves ou credenciais de assinatura
+*.jks
+*.keystore
+*.p12
+release_credentials.*
+keystore.properties
+
