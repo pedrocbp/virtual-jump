@@ -1,9 +1,8 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=6 format=3]
 [ext_resource type="PackedScene" path="res://scenes/main/Main.tscn" id="1"]
 [ext_resource type="Resource" path="res://resources/levels/level69_config.tres" id="2"]
 [ext_resource type="Script" path="res://scripts/levels/level_layout.gd" id="3"]
 [ext_resource type="PackedScene" path="res://scenes/obstacles/Portal.tscn" id="4"]
-[ext_resource type="PackedScene" path="res://scenes/obstacles/VerticalCurrent.tscn" id="5"]
 [ext_resource type="PackedScene" path="res://scenes/platforms/TemporaryPlatform.tscn" id="6"]
 [node name="Level69" type="Node2D"]
 script = ExtResource("3")
@@ -19,11 +18,6 @@ target_path = NodePath("../PortalExit1")
 position = Vector2(130, 45)
 active = false
 portal_color = Color(0.41, 0.79, 1, 1)
-[node name="VerticalCurrent1" parent="." instance=ExtResource("5")]
-position = Vector2(180, -65)
-zone_size = Vector2(220, 170)
-direction = -1
-strength = 1340.0
 [node name="TemporaryPlatform1" parent="." instance=ExtResource("6")]
 position = Vector2(135, -75)
 active_duration = 3.7

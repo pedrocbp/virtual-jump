@@ -55,6 +55,6 @@ func _ready() -> void:
 			button.add_theme_font_size_override("font_size", 13)
 			button.disabled = not unlocked
 			if best >= 0:
-				button.add_theme_color_override("font_color", Design.GOLD)
+				Design.font_color(button, "font_color", Design.GOLD)
 			grid.add_child(button)
 	column.add_child(Design.label("Conclua uma fase para liberar a próxima.", 12, Design.MUTED))

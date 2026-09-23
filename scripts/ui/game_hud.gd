@@ -32,6 +32,9 @@ func _ready() -> void:
 	top.offset_top = 12
 	top.offset_right = -12
 	var panel := PanelContainer.new()
+	var hud_style := Design.box(Color(Design.INK, 0.94), Color.TRANSPARENT, 8)
+	hud_style.set_content_margin_all(4)
+	panel.add_theme_stylebox_override("panel", hud_style)
 	top.add_child(panel)
 	var row := HBoxContainer.new()
 	panel.add_child(row)
@@ -46,8 +49,8 @@ func _ready() -> void:
 	if controller.level_config.level_number == 0:
 		record_label = Design.label("RECORDE 000 BLOCOS", 11, Design.MUTED)
 		labels.add_child(record_label)
-	row.add_child(_icon_button("↻", controller.restart_attempt))
-	row.add_child(_icon_button("Ⅱ", controller.toggle_pause))
+	row.add_child(Design.icon_button("restart", controller.restart_attempt))
+	row.add_child(Design.icon_button("pause", controller.toggle_pause))
 	progress = ProgressBar.new()
 	root.add_child(progress)
 	progress.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
@@ -59,7 +62,7 @@ func _ready() -> void:
 	progress.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	progress.add_theme_stylebox_override("background", Design.thin_bar(Color("1f3042")))
 	progress.add_theme_stylebox_override("fill", Design.thin_bar(Design.MINT))
-	var hint := Design.label("Toque e segure nos lados para mover  ·  ↻ reiniciar  ·  Ⅱ pausa", 11, Design.MUTED)
+	var hint := Design.label("Toque e segure nos lados para mover", 11, Design.MUTED)
 	root.add_child(hint)
 	hint.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
 	hint.offset_top = -55
@@ -72,8 +75,8 @@ func _ready() -> void:
 	result_column.add_child(result_title)
 	result_medal = _center("OURO", 15, Design.GOLD)
 	result_column.add_child(result_medal)
-	result_column.add_child(_center("SEU TEMPO", 11, Design.MUTED))
-	result_time = _center("00:00.00", 38)
+	result_column.add_child(_center("SUA ALTURA" if controller.level_config.level_number == 0 else "SEU TEMPO", 11, Design.MUTED))
+	result_time = _center("00:00.00", 30)
 	result_column.add_child(result_time)
 	result_best = _center("", 13, Design.MUTED)
 	result_column.add_child(result_best)
@@ -89,9 +92,9 @@ func _ready() -> void:
 	pause_menu = _overlay(root)
 	var pause_column := _card(pause_menu)
 	pause_column.add_child(_center("Respire um pouco.", 25))
-	pause_column.add_child(_center("Seu tempo está pausado.", 14, Design.MUTED))
+	pause_column.add_child(_center("Sua subida está pausada." if controller.level_config.level_number == 0 else "Seu tempo está pausado.", 14, Design.MUTED))
 	pause_column.add_child(Design.button("Continuar", controller.toggle_pause, true))
-	pause_column.add_child(Design.button("Reiniciar fase", controller.restart_attempt))
+	pause_column.add_child(Design.button("Reiniciar", controller.restart_attempt))
 	pause_column.add_child(Design.button("Configurações", Feedback.open_settings))
 	pause_column.add_child(Design.button("Seleção de fases", controller.go_to_levels))
 	pause_column.add_child(Design.button("Menu principal", func() -> void: Feedback.change_scene("res://scenes/ui/MainMenu.tscn")))
@@ -107,29 +110,9 @@ func _center(value: String, font_size: int, color: Color = Design.TEXT) -> Label
 	node.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	return node
 
-func _icon_button(value: String, action: Callable) -> Button:
-	var node := Button.new()
-	node.text = value
-	node.custom_minimum_size = Vector2(38, 38)
-	node.add_theme_font_size_override("font_size", 22)
-	node.add_theme_color_override("font_color", Design.MUTED)
-	node.add_theme_color_override("font_hover_color", Design.MINT)
-	node.add_theme_color_override("font_pressed_color", Design.MINT)
-	for state in ["normal", "hover", "pressed", "focus"]:
-		var style := Design.box(Color.TRANSPARENT, Color.TRANSPARENT, 8)
-		style.set_content_margin_all(0)
-		if state == "hover":
-			style.bg_color = Color("17273b")
-		elif state == "pressed":
-			style.bg_color = Color("20384e")
-		node.add_theme_stylebox_override(state, style)
-	node.pressed.connect(action)
-	node.pressed.connect(func() -> void: Feedback.play_sound("tap"))
-	return node
-
 func _overlay(parent: Control) -> Control:
 	var overlay := ColorRect.new()
-	overlay.color = Color(0.02, 0.045, 0.08, 0.94)
+	Design.paint(overlay, Design.INK)
 	parent.add_child(overlay)
 	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	return overlay
@@ -149,17 +132,18 @@ func show_result(elapsed: float, best: float, rank: int, record: bool) -> void:
 	result_title.text = "Jornada concluída!" if controller.level_config.level_number == Catalog.TOTAL_LEVELS else "Fase %02d concluída" % controller.level_config.level_number
 	result_medal.text = "MEDALHA DE " + SaveManager.get_medal_name(rank)
 	var colors := [Design.TEXT, Color("e8aa7d"), Color("c9e0ee"), Design.GOLD]
-	result_medal.add_theme_color_override("font_color", colors[rank])
+	Design.font_color(result_medal, "font_color", colors[rank])
 	result_time.text = Design.time(elapsed)
-	result_best.text = "Novo recorde pessoal!" if record else "Seu recorde: " + Design.time(best)
+	result_title.text = "Novo recorde!" if record else result_title.text
+	result_best.text = "Seu melhor tempo: " + Design.time(best)
 	result.show()
 	result.modulate.a = 0
 	create_tween().tween_property(result, "modulate:a", 1.0, 0.22)
 
 func show_endless_result(blocks: int, best: int, record: bool) -> void:
 	result_title.text = "NOVO RECORDE!" if record else "SUBIDA ENCERRADA"
-	result_medal.text = "ALTURA ALCANÇADA"
-	result_medal.add_theme_color_override("font_color", Design.GOLD if record else Design.MUTED)
+	result_medal.text = "MODO INFINITO"
+	Design.font_color(result_medal, "font_color", Design.GOLD if record else Design.MUTED)
 	result_time.text = "%03d BLOCOS" % blocks
 	result_best.text = "Recorde: %03d blocos" % best
 	result.show()
@@ -167,5 +151,5 @@ func show_endless_result(blocks: int, best: int, record: bool) -> void:
 	create_tween().tween_property(result, "modulate:a", 1.0, 0.22)
 
 func flash_death() -> void:
-	_flash.color.a = 0.13
-	create_tween().tween_property(_flash, "color:a", 0.0, 0.22)
+	# Local character/burst effects and camera shake communicate death.
+	_flash.color.a = 0.0

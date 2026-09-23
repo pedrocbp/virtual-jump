@@ -1,6 +1,8 @@
 class_name BreakablePlatform
 extends StaticBody2D
 
+const PlatformArt := preload("res://scripts/visuals/platform_visual.gd")
+
 @export var break_delay: float = 0.55
 @export var respawn_delay: float = 2.0
 
@@ -14,6 +16,7 @@ var _state_time := 0.0
 func _ready() -> void:
 	add_to_group("attempt_resettable")
 	$Trigger.body_entered.connect(_on_trigger_body_entered)
+	PlatformArt.install(self)
 
 
 func _physics_process(delta: float) -> void:
@@ -22,7 +25,8 @@ func _physics_process(delta: float) -> void:
 
 	_state_time += delta
 	if _state == "breaking":
-		visual.modulate.a = max(0.2, 1.0 - _state_time / break_delay)
+		# Keep the support legible until collision is actually removed.
+		# Separation of the visual seam now communicates the countdown.
 		if _state_time >= break_delay:
 			_state = "broken"
 			_state_time = 0.0
@@ -48,3 +52,8 @@ func reset_attempt() -> void:
 	collision_shape.set_deferred("disabled", false)
 	visual.modulate.a = 1.0
 	visual.visible = true
+	PlatformArt.refresh(self)
+
+func get_visual_state() -> Dictionary:
+	return {"kind": "breakable", "active": _state != "broken", "state": _state,
+		"progress": clampf(_state_time / maxf(0.001, break_delay), 0, 1) if _state == "breaking" else 0.0}

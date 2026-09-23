@@ -80,6 +80,7 @@ func _burst(point: Vector2, tint: Color, strength: float, kind: String = "radial
 	burst.tint = tint
 	burst.strength = strength
 	burst.kind = kind
+	burst.duration = 0.26 if kind == "death" else (0.22 if kind == "landing" else 0.4)
 	add_child(burst)
 
 func _on_goal_reached(_player: Player) -> void:
@@ -114,7 +115,7 @@ func _die() -> void:
 	Feedback.play_sound("death")
 	Feedback.vibrate(55)
 	camera.shake(5.5, 0.2)
-	_burst(player.global_position, Design.CORAL, 1.45, "death")
+	_burst(player.global_position, player.get_trail_color(), 1.15, "death")
 	ui.flash_death()
 	await get_tree().create_timer(0.28, false).timeout
 	_dying = false

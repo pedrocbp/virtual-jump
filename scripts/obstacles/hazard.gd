@@ -16,4 +16,6 @@ func _on_body_entered(body: Node2D) -> void:
 
 
 func reset_attempt() -> void:
-	pass
+	var skin := get_node_or_null("Visual/Skin")
+	if skin != null and skin.has_method("reset_visual"):
+		skin.reset_visual()

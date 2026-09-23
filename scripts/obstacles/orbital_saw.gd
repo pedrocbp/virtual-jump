@@ -1,7 +1,8 @@
 class_name OrbitalSaw
 extends Hazard
 
-const Design := preload("res://scripts/ui/design.gd")
+const Shapes := preload("res://scripts/visuals/world_shapes.gd")
+const WorldStyle := preload("res://scripts/visuals/world_style.gd")
 
 @export var orbit_radius: float = 34.0
 @export var orbit_speed: float = 1.35
@@ -32,14 +33,5 @@ func reset_attempt() -> void:
 	_apply_orbit()
 
 func _draw() -> void:
-	for index in range(12):
-		var angle := index * TAU / 12.0
-		draw_colored_polygon(PackedVector2Array([
-			Vector2.from_angle(angle - 0.13) * 19.0,
-			Vector2.from_angle(angle) * 28.0,
-			Vector2.from_angle(angle + 0.13) * 19.0,
-		]), Design.CORAL)
-	draw_circle(Vector2.ZERO, 20.0, Color("263949"))
-	draw_arc(Vector2.ZERO, 18.0, 0, TAU, 32, Color("ffad98"), 2.0, true)
-	draw_circle(Vector2.ZERO, 6.0, Design.CORAL)
-	draw_circle(Vector2.ZERO, 2.5, Design.INK)
+	var shape := $CollisionShape2D.shape as CircleShape2D
+	Shapes.saw(self, shape.radius, WorldStyle.theme_for(self))

@@ -28,17 +28,5 @@ func reset_attempt() -> void:
 	queue_redraw()
 
 func _draw() -> void:
-	var bounds := Rect2(-zone_size * 0.5, zone_size)
-	draw_rect(bounds, Color(0.55, 0.45, 1.0, 0.055))
-	draw_rect(bounds, Color(0.65, 0.55, 1.0, 0.28), false, 1.0)
-	var arrow_direction := float(signi(direction))
-	for index in range(12):
-		var column := index % 4
-		var row := floori(float(index) / 4.0)
-		var travel := fposmod(float(row) * 41.0 + _time * 70.0 * arrow_direction, zone_size.y - 28.0)
-		var point := bounds.position + Vector2(24.0 + column * (zone_size.x - 48.0) / 3.0, 14.0 + travel)
-		var end := point + Vector2(0, 14.0 * arrow_direction)
-		draw_line(point, end, Color(0.72, 0.65, 1.0, 0.48), 1.5, true)
-		draw_polyline(PackedVector2Array([
-			end + Vector2(-3, -4 * arrow_direction), end, end + Vector2(3, -4 * arrow_direction)
-		]), Color(0.72, 0.65, 1.0, 0.48), 1.2, true)
+	var style := preload("res://scripts/visuals/world_style.gd")
+	preload("res://scripts/visuals/flow_shapes.gd").wind(self, zone_size, direction, strength, _time, style.theme_for(self), true)

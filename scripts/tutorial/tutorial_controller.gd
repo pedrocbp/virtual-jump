@@ -79,7 +79,7 @@ func _build_ui() -> void:
 	var tutorial_title := Design.label("COMO JOGAR", 11, Design.MUTED)
 	tutorial_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	top_labels.add_child(tutorial_title)
-	instruction = Design.label("A bolinha pula sozinha.\nToque à esquerda ou à direita para direcioná-la.", 10, Design.TEXT)
+	instruction = Design.label("A bolinha pula sozinha.\nToque à esquerda ou à direita para direcioná-la.", 11, Design.TEXT)
 	top_labels.add_child(instruction)
 	instruction.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	instruction.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART

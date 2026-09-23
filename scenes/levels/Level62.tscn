@@ -14,8 +14,3 @@ position = Vector2(180, 470)
 zone_size = Vector2(220, 90)
 direction = 1
 strength = 320.0
-[node name="VerticalCurrentUp" parent="." instance=ExtResource("4")]
-position = Vector2(180, 55)
-zone_size = Vector2(220, 150)
-direction = -1
-strength = 1380.0

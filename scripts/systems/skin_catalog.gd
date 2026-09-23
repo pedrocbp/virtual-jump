@@ -67,57 +67,35 @@ static func unlock_text(skin: Dictionary) -> String:
 	return "Bloqueada"
 
 static func draw_ball(target: CanvasItem, center: Vector2, radius: float, skin_id: String, facing: float = 1.0) -> void:
+	var style := preload("res://scripts/visuals/world_style.gd")
+	var theme := style.theme_for(target)
 	var skin := get_skin(skin_id)
-	var body: Color = skin["body"]
-	var shade: Color = skin["shade"]
-	var highlight: Color = skin["highlight"]
-	var eye: Color = skin["eye"]
-	var glow: Color = skin["glow"]
+	var body: Color = skin.body if theme == 0 else style.color("highlight", theme)
+	var ink: Color = skin.eye if theme == 0 else style.color("ink", theme)
 	var unit := radius / 16.0
+	target.draw_circle(center, radius, body, true, -1, true)
+	if theme == 0:
+		target.draw_arc(center, radius - 1, 0.15, PI - 0.15, 28, skin.shade, 1.5 * unit, true)
+		target.draw_arc(center, radius - 2.5 * unit, PI * 1.12, PI * 1.67, 20, skin.highlight, 1.2 * unit, true)
+	# The face and badge occupy separate regions, even on a 32-unit player.
+	_draw_badge(target, center + Vector2(-2 * facing, 7) * unit, unit, String(skin.pattern), ink)
+	for offset in [-2.6, 2.6]:
+		target.draw_circle(center + Vector2(5 * facing + offset, -3) * unit, 1.85 * unit, ink, true, -1, true)
 
-	var glow_tint := glow
-	glow_tint.a = 0.11
-	target.draw_circle(center, radius + 5.0 * unit, glow_tint)
-	target.draw_circle(center + Vector2(0, 2.0 * unit), radius, shade)
-	target.draw_circle(center + Vector2(0, -1.0 * unit), radius - 1.0 * unit, body)
-	target.draw_arc(center + Vector2(0, -1.0 * unit), radius - 2.0 * unit, PI, TAU, 24, highlight, 1.5 * unit, true)
-	target.draw_circle(center + Vector2(-5.0, -6.0) * unit, 4.0 * unit, Color(highlight, 0.72))
-	_draw_pattern(target, center, radius, String(skin["pattern"]), highlight, shade)
-	target.draw_circle(center + Vector2(3.0 * facing, -1.0) * unit, 1.6 * unit, eye)
-	target.draw_circle(center + Vector2(8.0 * facing, -1.0) * unit, 1.6 * unit, eye)
-
-static func _draw_pattern(target: CanvasItem, center: Vector2, radius: float, pattern: String, accent: Color, shade: Color) -> void:
-	var unit := radius / 16.0
+static func _draw_badge(target: CanvasItem, center: Vector2, unit: float, pattern: String, ink: Color) -> void:
 	match pattern:
 		"flame":
-			target.draw_colored_polygon(PackedVector2Array([
-				center + Vector2(-3, 8) * unit,
-				center + Vector2(-5, 1) * unit,
-				center + Vector2(0, -7) * unit,
-				center + Vector2(2, 0) * unit,
-				center + Vector2(6, -3) * unit,
-				center + Vector2(5, 7) * unit,
-			]), Color(accent, 0.52))
+			target.draw_colored_polygon(PackedVector2Array([center + Vector2(-4, 2) * unit, center + Vector2(-2, -2) * unit, center + Vector2(0, -5) * unit, center + Vector2(2, 0) * unit, center + Vector2(4, -2) * unit, center + Vector2(3, 3) * unit]), ink)
 		"wave":
-			for offset in [-2.0, 4.0]:
-				target.draw_arc(center + Vector2(0, offset) * unit, 8.0 * unit, 0.15, PI - 0.15, 16, Color(accent, 0.62), 1.3 * unit, true)
+			for row in [-1, 2]:
+				target.draw_polyline(PackedVector2Array([center + Vector2(-5, row) * unit, center + Vector2(-2, row - 1.5) * unit, center + Vector2(2, row + 1) * unit, center + Vector2(5, row - 1) * unit]), ink, unit, true)
 		"star":
 			var points := PackedVector2Array()
 			for index in range(10):
 				var angle := -PI * 0.5 + index * PI / 5.0
-				var distance := (6.0 if index % 2 == 0 else 2.8) * unit
-				points.append(center + Vector2.from_angle(angle) * distance)
-			target.draw_colored_polygon(points, Color(accent, 0.72))
+				points.append(center + Vector2.from_angle(angle) * (4.7 if index % 2 == 0 else 2.1) * unit)
+			target.draw_colored_polygon(points, ink)
 		"ring":
-			target.draw_arc(center, 8.0 * unit, 0, TAU, 28, Color(accent, 0.65), 1.8 * unit, true)
-			target.draw_circle(center, 2.2 * unit, Color(shade, 0.72))
+			target.draw_arc(center, 3.8 * unit, 0, TAU, 24, ink, 1.4 * unit, true)
 		"crown":
-			target.draw_colored_polygon(PackedVector2Array([
-				center + Vector2(-7, 5) * unit,
-				center + Vector2(-7, -2) * unit,
-				center + Vector2(-3, 1) * unit,
-				center + Vector2(0, -5) * unit,
-				center + Vector2(3, 1) * unit,
-				center + Vector2(7, -2) * unit,
-				center + Vector2(7, 5) * unit,
-			]), Color("ffd18a"))
+			target.draw_colored_polygon(PackedVector2Array([center + Vector2(-5, 2) * unit, center + Vector2(-5, -3) * unit, center + Vector2(-2, -1) * unit, center + Vector2(0, -4) * unit, center + Vector2(2, -1) * unit, center + Vector2(5, -3) * unit, center + Vector2(5, 2) * unit]), ink)

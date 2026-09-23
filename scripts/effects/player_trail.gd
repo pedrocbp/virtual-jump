@@ -50,7 +50,7 @@ func clear_trail() -> void:
 func _draw() -> void:
 	for sample in _samples:
 		var life: float = 1.0 - float(sample["age"]) / LIFETIME
-		var trail_radius: float = 12.0 * life * float(sample["speed"])
+		var trail_radius: float = 8.0 * life * float(sample["speed"])
 		var color := _target.get_trail_color() if is_instance_valid(_target) else Color("80efc0")
-		color.a = 0.13 * life * life
+		color.a = 0.16 * life * life
 		draw_circle(Vector2(sample["position"]), trail_radius, color)

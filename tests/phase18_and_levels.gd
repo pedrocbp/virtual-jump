@@ -38,7 +38,7 @@ func _run() -> void:
 	save.set_setting("music_volume", 0.37)
 	save.set_setting("vibration_enabled", false)
 	save.set_setting("visual_theme", 2)
-	check(root.get_node("VisualTheme").visible and root.get_node("VisualTheme").get_selected_theme() == 2, "Tema minimalista claro aplicado imediatamente")
+	check(not root.get_node("VisualTheme").visible and root.get_node("VisualTheme").get_child_count() == 0 and root.get_node("VisualTheme").get_selected_theme() == 2 and load("res://scripts/visuals/world_style.gd").active_theme == 2, "Tema claro nativo aplicado imediatamente, sem filtro de tela")
 	check(save._write_save("res://build/qa18/test_save.json"), "Gravação isolada")
 	save.set_setting("master_volume", 0.72)
 	check(save._write_save("res://build/qa18/test_save.json"), "Substituição atômica do save")
@@ -137,7 +137,12 @@ func _run() -> void:
 			check(main._dying, "Laser ligado mata jogador já dentro da área")
 			await create_timer(0.3).timeout
 		if number == 33:
-			var platform = get_nodes_in_group("attempt_resettable")[0]
+			var falling_platforms := get_nodes_in_group("attempt_resettable").filter(func(node: Node) -> bool: return node.get_script() == load("res://scripts/platforms/falling_platform.gd"))
+			check(not falling_platforms.is_empty(), "Fase 33 possui plataforma de queda")
+			if falling_platforms.is_empty():
+				quit(1)
+				return
+			var platform = falling_platforms[0]
 			main.player.reset_motion()
 			main.player.position = platform.position + Vector2(0, -35)
 			main.player.velocity.y = 100

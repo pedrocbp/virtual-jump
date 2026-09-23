@@ -33,10 +33,6 @@ func _process(delta: float) -> void:
 	if death_animating:
 		_death_age += delta
 		var progress := clampf(_death_age / 0.26, 0.0, 1.0)
-		var pulse := sin(progress * PI)
-		scale = Vector2.ONE * (1.0 + pulse * 0.18) * lerpf(1.0, 0.18, progress * progress)
-		rotation = progress * 0.38
-		modulate.a = 1.0 - progress
 		if progress >= 1.0:
 			visible = false
 	queue_redraw()
@@ -44,6 +40,10 @@ func _process(delta: float) -> void:
 
 func _ready() -> void:
 	add_to_group("player")
+	var artwork := preload("res://scripts/visuals/player_visual.gd").new()
+	artwork.name = "Artwork"
+	artwork.source = self
+	add_child(artwork)
 	_apply_selected_skin()
 	var save_manager := get_node_or_null("/root/SaveManager")
 	if save_manager != null and not save_manager.skin_changed.is_connected(_apply_selected_skin):
@@ -57,7 +57,8 @@ func _apply_selected_skin() -> void:
 	queue_redraw()
 
 func get_trail_color() -> Color:
-	return Skins.get_skin(_skin_id)["glow"]
+	var style := preload("res://scripts/visuals/world_style.gd")
+	return Skins.get_skin(_skin_id)["glow"] if style.theme_for(self) == 0 else style.color("highlight", style.theme_for(self))
 
 
 func _input(event: InputEvent) -> void:
@@ -90,6 +91,10 @@ func reset_motion() -> void:
 	scale = Vector2.ONE
 	rotation = 0.0
 	controls_enabled = true
+	var artwork := get_node_or_null("Artwork") as Node2D
+	if artwork != null:
+		artwork.modulate = Color.WHITE
+		artwork.queue_redraw()
 	var trail := get_node_or_null("Trail")
 	if trail != null:
 		trail.clear_trail()
@@ -197,13 +202,7 @@ func _get_horizontal_input() -> float:
 	return -1.0 if left_touched else 1.0
 
 
-func _draw() -> void:
-	# Apenas o desenho é deformado; o corpo e a colisão continuam circulares.
-	var stretch := clampf(absf(velocity.y) / jump_force, 0.0, 1.0) * 0.13 * (1.0 - minf(_squash, 1.0))
-	var visual_scale := Vector2(
-		1.0 + _squash * 0.28 - stretch * 0.55,
-		1.0 - _squash * 0.24 + stretch
-	)
-	var tilt := clampf(velocity.x / max_horizontal_speed, -1.0, 1.0) * 0.045
-	draw_set_transform(Vector2.ZERO, tilt, visual_scale)
-	Skins.draw_ball(self, Vector2.ZERO, radius, _skin_id, _facing_direction)
+func get_visual_state() -> Dictionary:
+	return {"velocity": velocity, "jump_force": jump_force, "max_speed": max_horizontal_speed,
+		"squash": _squash, "radius": radius, "skin": _skin_id, "facing": _facing_direction,
+		"dying": death_animating, "death_age": _death_age}

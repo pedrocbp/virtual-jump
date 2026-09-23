@@ -25,7 +25,7 @@ func _ready() -> void:
 	var brand := Design.label("↑  VERTICAL", 16, Design.MINT)
 	brand.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	header.add_child(brand)
-	var settings := _icon_button("⚙", Feedback.open_settings)
+	var settings := Design.icon_button("settings", Feedback.open_settings)
 	settings.name = "SettingsButton"
 	settings.custom_minimum_size = Vector2(44, 44)
 	settings.tooltip_text = "Configurações"
@@ -114,22 +114,9 @@ func _compact_button(value: String, action: Callable, primary: bool = false) -> 
 	button.add_theme_stylebox_override("normal", normal)
 	button.add_theme_stylebox_override("hover", hover)
 	button.add_theme_stylebox_override("pressed", pressed)
-	button.add_theme_color_override("font_color", Design.MUTED)
-	button.add_theme_color_override("font_hover_color", Design.TEXT)
-	button.add_theme_color_override("font_pressed_color", Design.MINT)
-	return button
-
-func _icon_button(value: String, action: Callable) -> Button:
-	var button := Design.button(value, action)
-	button.custom_minimum_size = Vector2(44, 44)
-	button.flat = true
-	button.add_theme_stylebox_override("normal", StyleBoxEmpty.new())
-	button.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
-	button.add_theme_stylebox_override("hover", Design.box(Color(Design.PANEL, 0.46), Color.TRANSPARENT, 12))
-	button.add_theme_stylebox_override("pressed", Design.box(Color(Design.MINT, 0.12), Color.TRANSPARENT, 12))
-	button.add_theme_color_override("font_color", Design.MUTED)
-	button.add_theme_color_override("font_hover_color", Design.TEXT)
-	button.add_theme_color_override("font_pressed_color", Design.MINT)
+	Design.font_color(button, "font_color", Design.MUTED)
+	Design.font_color(button, "font_hover_color", Design.TEXT)
+	Design.font_color(button, "font_pressed_color", Design.MINT)
 	return button
 
 func _next_level() -> int:

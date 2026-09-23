@@ -64,7 +64,7 @@ func _add_skin_card(parent: VBoxContainer, skin: Dictionary) -> void:
 	var select_button := Design.button("Usar", func() -> void: _select(skin_id))
 	select_button.custom_minimum_size = Vector2(82, 46)
 	select_button.add_theme_font_size_override("font_size", 12)
-	row.add_child(select_button)
+	info.add_child(select_button)
 	_buttons[skin_id] = select_button
 
 func _select(skin_id: String) -> void:

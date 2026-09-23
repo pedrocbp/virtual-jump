@@ -1,11 +1,11 @@
 extends SceneTree
 
 const EXPECTED_TYPES := {
-	61: ["current"], 62: ["current"], 63: ["portal"], 64: ["portal"],
-	65: ["current", "impulse"], 66: ["portal", "retractable"],
-	67: ["orbital", "portal"], 68: ["current", "laser"],
-	69: ["current", "portal", "temporary"],
-	70: ["current", "portal", "retractable"],
+	61: [], 62: ["current"], 63: ["portal"], 64: ["portal"],
+	65: ["impulse"], 66: ["portal", "retractable"],
+	67: ["orbital", "portal"], 68: ["laser"],
+	69: ["portal", "temporary"],
+	70: ["portal", "retractable"],
 }
 
 const SCRIPT_TYPES := {
@@ -67,6 +67,10 @@ func _run() -> void:
 			elif path == "res://scripts/obstacles/vertical_current.gd":
 				check(child.call("push_at", child_2d.global_position) != 0.0, "Corrente da fase %d atua dentro da área" % number)
 				check(is_zero_approx(float(child.call("push_at", Vector2(-500, -500)))), "Corrente da fase %d não atua fora da área" % number)
+				if number == 69:
+					check(float(child.get("strength")) <= 900.0, "Corrente da fase 69 mantém força compensável")
+					var current_size: Vector2 = child.get("zone_size")
+					check(current_size.y <= 100.0, "Corrente da fase 69 não alcança a plataforma-teto")
 			elif path == "res://scripts/obstacles/retractable_spikes.gd":
 				var nearest_platform := Vector2.ZERO
 				var nearest_distance := INF
@@ -93,21 +97,9 @@ func _run() -> void:
 		var expected: Array = EXPECTED_TYPES[number].duplicate()
 		expected.sort()
 		check(found_types == expected, "Fase %d usa somente %s" % [number, ", ".join(expected)])
-		check(found_types.size() >= 1 and found_types.size() <= 3, "Fase %d usa entre um e três tipos" % number)
+		check(found_types.size() <= 3, "Fase %d usa no máximo três tipos" % number)
 		main.restart_attempt()
 		check(main._attempt_active and main.player.visible, "Restart funcional na fase %d" % number)
-
-	await _open_level(61)
-	var upward_current: Node = current_scene.get_node("VerticalCurrent1")
-	check(float(upward_current.call("push_at", upward_current.global_position)) < -1200.0, "Corrente ascendente aplica força suficiente")
-	var current_player: Node = current_scene.get_node("Main/Player")
-	current_player.global_position = upward_current.global_position
-	current_player.velocity = Vector2.ZERO
-	var pushed_up := false
-	for _frame in range(4):
-		await physics_frame
-		pushed_up = pushed_up or current_player.velocity.y < 0.0
-	check(pushed_up, "Corrente ascendente altera a trajetória da bolinha")
 
 	await _open_level(62)
 	var downward_current: Node2D = current_scene.get_node("VerticalCurrentDown") as Node2D

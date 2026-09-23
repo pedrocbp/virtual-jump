@@ -105,7 +105,7 @@ func apply_settings() -> void:
 
 
 func _transition_color() -> Color:
-	return Color.WHITE if int(SaveManager.settings.get("visual_theme", 0)) == 2 else Design.INK
+	return Design.native_color(Design.INK, true)
 
 func open_settings() -> void:
 	if transitioning or is_instance_valid(settings_panel):

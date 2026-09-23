@@ -1,6 +1,8 @@
 class_name TemporaryPlatform
 extends StaticBody2D
 
+const PlatformArt := preload("res://scripts/visuals/platform_visual.gd")
+
 @export var active_duration: float = 2.5
 @export var inactive_duration: float = 1.5
 
@@ -13,6 +15,7 @@ var _state_time := 0.0
 
 func _ready() -> void:
 	add_to_group("attempt_resettable")
+	PlatformArt.install(self, true)
 
 
 func _physics_process(delta: float) -> void:
@@ -28,7 +31,12 @@ func _set_active(active: bool) -> void:
 	_state_time = 0.0
 	collision_shape.set_deferred("disabled", not active)
 	visual.visible = active
+	PlatformArt.refresh(self)
 
 
 func reset_attempt() -> void:
 	_set_active(true)
+
+func get_visual_state() -> Dictionary:
+	var duration := active_duration if _is_active else inactive_duration
+	return {"kind": "temporary", "active": _is_active, "progress": clampf(_state_time / maxf(0.001, duration), 0, 1)}

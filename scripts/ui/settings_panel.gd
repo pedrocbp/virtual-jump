@@ -25,7 +25,7 @@ func _ready() -> void:
 	add_child(_main)
 	_main.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var background := ColorRect.new()
-	background.color = Design.INK
+	Design.paint(background, Design.INK)
 	_main.add_child(background)
 	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var column := VBoxContainer.new()
@@ -51,8 +51,8 @@ func _ready() -> void:
 	appearance_help.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	content.add_child(appearance_help)
 	_theme_choice(content, "Original · cores atuais", 0)
-	_theme_choice(content, "Minimalista escuro · preto e branco", 1)
-	_theme_choice(content, "Minimalista claro · branco e preto", 2)
+	_theme_choice(content, "Escuro · preto e branco", 1)
+	_theme_choice(content, "Claro · branco e preto", 2)
 	content.add_child(Design.label("ÁUDIO", 12, Design.MINT))
 	_toggle(content, "Silenciar tudo", "muted")
 	_volume(content, "Volume geral", "master_volume")
@@ -73,7 +73,7 @@ func _ready() -> void:
 	content.add_child(version)
 	content.add_child(Design.label("PROGRESSO", 12, Design.CORAL))
 	_reset_button = Design.button("Reiniciar meu progresso…", _ask_reset)
-	_reset_button.add_theme_color_override("font_color", Design.CORAL)
+	Design.font_color(_reset_button, "font_color", Design.CORAL)
 	content.add_child(_reset_button)
 	_status = Design.label("Alterações salvas automaticamente.", 12, Design.MUTED)
 	_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -96,8 +96,8 @@ func _refresh_theme_buttons() -> void:
 	var selected := int(SaveManager.settings.get("visual_theme", 0))
 	var titles := [
 		"Original · cores atuais",
-		"Minimalista escuro · preto e branco",
-		"Minimalista claro · branco e preto",
+		"Escuro · preto e branco",
+		"Claro · branco e preto",
 	]
 	for index in range(titles.size()):
 		var button := _controls.get("theme_%d" % index) as Button
@@ -145,12 +145,12 @@ func _volume(parent: Node, title: String, key: String) -> void:
 func _commit(key: String, value: Variant) -> void:
 	var success := SaveManager.set_setting(key, value)
 	_status.text = "Alterações salvas automaticamente." if success else "Não foi possível salvar. A alteração foi desfeita."
-	_status.add_theme_color_override("font_color", Design.MUTED if success else Design.CORAL)
+	Design.font_color(_status, "font_color", Design.MUTED if success else Design.CORAL)
 
 func _build_confirmation() -> void:
 	var overlay := ColorRect.new()
 	_confirmation = overlay
-	overlay.color = Color(0.02, 0.04, 0.07, 0.97)
+	Design.paint(overlay, Color(Design.INK, 0.97))
 	_main.add_child(overlay)
 	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var center := CenterContainer.new()
@@ -169,14 +169,14 @@ func _build_confirmation() -> void:
 	_confirm_cancel = Design.button("Cancelar e manter progresso", _cancel_reset, true)
 	column.add_child(_confirm_cancel)
 	var erase := Design.button("Sim, apagar meu progresso", _confirm_reset)
-	erase.add_theme_color_override("font_color", Design.CORAL)
+	Design.font_color(erase, "font_color", Design.CORAL)
 	column.add_child(erase)
 	_confirmation.hide()
 
 func _build_privacy() -> void:
 	var overlay := ColorRect.new()
 	_privacy = overlay
-	overlay.color = Design.INK
+	Design.paint(overlay, Design.INK)
 	_main.add_child(overlay)
 	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var page := Design.margin(overlay, 20)

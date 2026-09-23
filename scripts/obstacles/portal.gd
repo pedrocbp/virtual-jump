@@ -1,7 +1,8 @@
 class_name GamePortal
 extends Area2D
 
-const Design := preload("res://scripts/ui/design.gd")
+const Shapes := preload("res://scripts/visuals/world_shapes.gd")
+const WorldStyle := preload("res://scripts/visuals/world_style.gd")
 
 @export var target_path: NodePath
 @export var exit_offset := Vector2.ZERO
@@ -15,6 +16,7 @@ const Design := preload("res://scripts/ui/design.gd")
 
 var _time := 0.0
 var _available := true
+var _transfer_pulse := 0.0
 
 func _ready() -> void:
 	add_to_group("attempt_resettable")
@@ -26,6 +28,7 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	_time += delta
+	_transfer_pulse = maxf(0, _transfer_pulse - delta)
 	_update_availability()
 	queue_redraw()
 
@@ -42,6 +45,9 @@ func _on_body_entered(body: Node2D) -> void:
 	body.global_position = target.global_position + exit_offset
 	body.velocity.y = minf(body.velocity.y, -240.0)
 	body.reset_physics_interpolation()
+	play_transfer_visual()
+	if target.has_method("play_transfer_visual"):
+		target.play_transfer_visual()
 	var feedback := get_node_or_null("/root/Feedback")
 	if feedback != null:
 		feedback.play_sound("win")
@@ -49,6 +55,7 @@ func _on_body_entered(body: Node2D) -> void:
 
 func reset_attempt() -> void:
 	_time = cycle_offset
+	_transfer_pulse = 0.0
 	_update_availability()
 	queue_redraw()
 
@@ -65,29 +72,34 @@ func _update_availability() -> void:
 		_available = fposmod(_time, cycle) < visible_duration
 	monitoring = active and _available
 
-func _draw() -> void:
+func play_transfer_visual() -> void:
+	_transfer_pulse = 0.22
+	queue_redraw()
+
+func get_visual_state() -> Dictionary:
+	var warning := -1.0
+	var remaining := -1.0
+	var hidden := false
 	if intermittent and active and not _available:
 		var cycle := maxf(0.1, visible_duration + hidden_duration)
 		var cycle_time := fposmod(_time, cycle)
 		var hidden_progress := cycle_time - visible_duration
 		var time_until_open := hidden_duration - hidden_progress
 		if time_until_open > warning_duration:
-			return
-		# Um anel discreto cresce antes da reabertura para o jogador antecipar
-		# a janela, sem tornar o portal utilizável durante o aviso.
-		var warning_progress := 1.0 - clampf(time_until_open / warning_duration, 0.0, 1.0)
-		var warning_color := Color(portal_color, 0.18 + warning_progress * 0.42)
-		draw_arc(Vector2.ZERO, lerpf(10.0, 20.0, warning_progress), -PI * 0.5, PI * 1.5, 28, warning_color, 2.0, true)
-		for index in range(3):
-			var point := Vector2.from_angle(index * TAU / 3.0 - PI * 0.5) * 15.0
-			draw_circle(point, 1.5 + warning_progress, warning_color)
+			hidden = true
+		warning = 1.0 - clampf(time_until_open / warning_duration, 0.0, 1.0)
+	elif intermittent and active:
+		remaining = 1.0 - fposmod(_time, visible_duration + hidden_duration) / visible_duration
+	return {"hidden": hidden, "warning": warning, "remaining": remaining, "entry": active, "available": is_available(), "pulse": _transfer_pulse}
+
+func _draw() -> void:
+	var state := get_visual_state()
+	if state.hidden:
 		return
-	var pulse := 1.0 + sin(_time * 3.2) * 0.06
-	draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE * pulse)
-	draw_circle(Vector2.ZERO, 25.0, Color(portal_color, 0.10))
-	draw_arc(Vector2.ZERO, 20.0, 0, TAU, 40, Color(portal_color, 0.9), 3.0, true)
-	draw_arc(Vector2.ZERO, 13.0, -_time * 1.8, TAU - _time * 1.8, 32, Color("dcd4ff"), 2.0, true)
-	draw_circle(Vector2.ZERO, 6.0, Color(Design.INK, 0.88))
-	for index in range(3):
-		var point := Vector2.from_angle(_time * 1.5 + index * TAU / 3.0) * 16.0
-		draw_circle(point, 1.8, Color("f0edff"))
+	var shape := $CollisionShape2D.shape as CircleShape2D
+	Shapes.portal(self, shape.radius, active, _time, state.warning, state.remaining, WorldStyle.theme_for(self), portal_color)
+	if _transfer_pulse > 0 and state.warning < 0:
+		var progress := 1.0 - _transfer_pulse / 0.22
+		var tint := WorldStyle.color("portal" if active else "flow", WorldStyle.theme_for(self))
+		tint.a = 1.0 - progress
+		draw_arc(Vector2.ZERO, shape.radius + 2 + progress * 7, 0, TAU, 48, tint, 1.5, true)

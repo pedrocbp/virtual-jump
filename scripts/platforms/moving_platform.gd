@@ -1,6 +1,8 @@
 class_name MovingPlatform
 extends AnimatableBody2D
 
+const PlatformArt := preload("res://scripts/visuals/platform_visual.gd")
+
 @export var movement_axis: Vector2 = Vector2.RIGHT
 @export var travel_distance: float = 70.0
 @export var movement_speed: float = 1.2
@@ -12,6 +14,7 @@ var _movement_time := 0.0
 func _ready() -> void:
 	add_to_group("attempt_resettable")
 	_origin = position
+	PlatformArt.install(self)
 
 
 func _physics_process(delta: float) -> void:
@@ -27,3 +30,7 @@ func reset_attempt() -> void:
 	position = _origin
 	reset_physics_interpolation()
 	sync_to_physics = true
+	PlatformArt.refresh(self)
+
+func get_visual_state() -> Dictionary:
+	return {"kind": "moving", "axis": movement_axis.normalized(), "offset": sin(_movement_time)}

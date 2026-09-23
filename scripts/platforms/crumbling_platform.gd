@@ -1,7 +1,7 @@
 class_name CrumblingPlatform
 extends AnimatableBody2D
 
-const Design := preload("res://scripts/ui/design.gd")
+const PlatformArt := preload("res://scripts/visuals/platform_visual.gd")
 
 @export var landings_before_fall: int = 4
 @export var fall_acceleration: float = 1050.0
@@ -22,7 +22,7 @@ func _ready() -> void:
 	# quebra; sem isso o AnimatableBody2D pode reaplicar a transformação antiga.
 	sync_to_physics = false
 	add_to_group("attempt_resettable")
-	queue_redraw()
+	PlatformArt.install(self)
 
 func on_player_landed() -> void:
 	if state == "falling" or state == "gone":
@@ -47,7 +47,6 @@ func on_player_landed() -> void:
 	else:
 		state = "cracking"
 		Feedback.vibrate(8)
-	queue_redraw()
 
 func _physics_process(delta: float) -> void:
 	if state == "cracking":
@@ -68,7 +67,6 @@ func _physics_process(delta: float) -> void:
 			state = "gone"
 			visible = false
 			collision_shape.set_deferred("disabled", true)
-	queue_redraw()
 
 func reset_attempt() -> void:
 	state = "stable"
@@ -84,32 +82,7 @@ func reset_attempt() -> void:
 	collision_shape.disabled = false
 	collision_shape.set_deferred("disabled", false)
 	reset_physics_interpolation()
-	queue_redraw()
+	PlatformArt.refresh(self)
 
-func _draw() -> void:
-	var shake_x := sin(_state_time * 55.0) * 1.8 if state == "cracking" else 0.0
-	draw_set_transform(Vector2(shake_x, 0.0))
-	var fill := Color("573541") if state == "cracking" else Color("263c4b")
-	var edge := Design.CORAL if state == "cracking" else Color("ffad83")
-	var style := Design.box(fill, edge, 5)
-	style.draw(get_canvas_item(), Rect2(-50, -10, 100, 20))
-	draw_line(Vector2(-43, -7), Vector2(43, -7), Color(edge, 0.9), 2.0, true)
-	# As rachaduras aumentam a cada pouso e avisam antes da quarta quicada.
-	if landing_count > 0:
-		draw_polyline(PackedVector2Array([
-			Vector2(-23, -8), Vector2(-13, -1), Vector2(-18, 8)
-		]), edge, 2.0, true)
-		draw_polyline(PackedVector2Array([
-			Vector2(8, -8), Vector2(1, 0), Vector2(15, 8)
-		]), edge, 2.0, true)
-		draw_line(Vector2(26, -6), Vector2(34, 6), edge, 2.0, true)
-	if landing_count > 1:
-		draw_polyline(PackedVector2Array([
-			Vector2(-39, -7), Vector2(-31, 0), Vector2(-37, 7)
-		]), edge, 2.0, true)
-		draw_polyline(PackedVector2Array([
-			Vector2(22, -8), Vector2(17, -1), Vector2(25, 7)
-		]), edge, 2.0, true)
-	if landing_count > 2:
-		draw_line(Vector2(-5, -9), Vector2(-10, 0), edge, 2.4, true)
-		draw_line(Vector2(-10, 0), Vector2(-3, 9), edge, 2.4, true)
+func get_visual_state() -> Dictionary:
+	return {"kind": "crumbling", "state": state, "hits": landing_count, "total": maxi(4, landings_before_fall)}
