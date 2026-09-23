@@ -1,0 +1,53 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scripts/levels/endless_controller.gd" id="1_controller"]
+[ext_resource type="Resource" path="res://resources/levels/endless_config.tres" id="2_config"]
+[ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="3_player"]
+[ext_resource type="Script" path="res://scripts/systems/vertical_camera.gd" id="4_camera"]
+[ext_resource type="PackedScene" path="res://scenes/platforms/NormalPlatform.tscn" id="5_platform"]
+
+[sub_resource type="RectangleShape2D" id="shape_floor"]
+size = Vector2(360, 20)
+
+[sub_resource type="RectangleShape2D" id="shape_wall"]
+size = Vector2(20, 5000)
+
+[node name="Endless" type="Node2D"]
+script = ExtResource("1_controller")
+level_config = ExtResource("2_config")
+
+[node name="Floor" type="StaticBody2D" parent="."]
+position = Vector2(180, 620)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+shape = SubResource("shape_floor")
+
+[node name="Visual" type="Polygon2D" parent="Floor"]
+polygon = PackedVector2Array(-180, -10, 180, -10, 180, 10, -180, 10)
+color = Color(0.36, 0.78, 0.58, 1)
+
+[node name="LeftWall" type="StaticBody2D" parent="."]
+position = Vector2(-10, -1800)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftWall"]
+shape = SubResource("shape_wall")
+
+[node name="RightWall" type="StaticBody2D" parent="."]
+position = Vector2(370, -1800)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightWall"]
+shape = SubResource("shape_wall")
+
+[node name="PlatformOne" parent="." instance=ExtResource("5_platform")]
+position = Vector2(120, 520)
+
+[node name="Player" parent="." instance=ExtResource("3_player")]
+position = Vector2(180, 560)
+
+[node name="SpawnPoint" type="Marker2D" parent="."]
+position = Vector2(180, 560)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(180, 320)
+enabled = true
+script = ExtResource("4_camera")
