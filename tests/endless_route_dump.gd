@@ -23,4 +23,3 @@ func _run() -> void:
 			platform.position.x, platform.position.y, float(platform.get_meta("vertical_gap")),
 			str(platform.get_meta("spring_landing")), str(platform.get_meta("layout_valid"))])
 	quit()
-

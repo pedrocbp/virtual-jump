@@ -21,4 +21,3 @@ Estas respostas correspondem ao código atual da versão 1.0.0. Revise novamente
 ## Dados armazenados apenas no aparelho
 
 Progresso, recordes, tempos, medalhas, tentativas, mortes, preferências de áudio/tema e skin selecionada são salvos localmente. Eles não saem do aparelho e, segundo a definição atual do formulário, não constituem coleta pelo desenvolvedor.
-

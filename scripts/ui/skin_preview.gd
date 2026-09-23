@@ -28,4 +28,3 @@ func _draw() -> void:
 	if locked:
 		draw_circle(center, 22, Color(Design.INK, 0.58))
 		draw_string(ThemeDB.fallback_font, center + Vector2(-5, 6), "×", HORIZONTAL_ALIGNMENT_LEFT, -1, 20, Design.MUTED)
-

@@ -64,4 +64,3 @@ func _save(filename: String) -> void:
 		push_error("Falha ao salvar " + path)
 	else:
 		print("STORE_SCREENSHOT: ", path)
-

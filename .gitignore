@@ -10,4 +10,3 @@ android/build/build/
 *.p12
 release_credentials.*
 keystore.properties
-
