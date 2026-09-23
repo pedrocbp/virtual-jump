@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="500" viewBox="0 0 1024 500">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#0b1423"/>
+      <stop offset="1" stop-color="#17273b"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#050a10" flood-opacity=".55"/>
+    </filter>
+  </defs>
+  <rect width="1024" height="500" fill="url(#bg)"/>
+  <circle cx="820" cy="88" r="5" fill="#80efc0" opacity=".4"/>
+  <circle cx="700" cy="160" r="8" fill="#80efc0" opacity=".18"/>
+  <circle cx="942" cy="346" r="4" fill="#edf5fa" opacity=".3"/>
+  <path d="M788 54l-24 28h16v43h17V82h16z" fill="#ffd18a"/>
+  <g filter="url(#shadow)" fill="#17273b" stroke="#80efc0" stroke-width="8">
+    <rect x="636" y="405" width="252" height="28" rx="12"/>
+    <rect x="774" y="296" width="202" height="28" rx="12"/>
+    <rect x="608" y="187" width="218" height="28" rx="12"/>
+  </g>
+  <circle cx="786" cy="366" r="46" fill="#80efc0" filter="url(#shadow)"/>
+  <circle cx="772" cy="350" r="11" fill="#d9fff0" opacity=".8"/>
+  <circle cx="796" cy="368" r="5" fill="#0b1423"/>
+  <circle cx="813" cy="368" r="5" fill="#0b1423"/>
+  <g fill="#edf5fa" transform="translate(74 174)">
+    <g><path d="M0 0h15l15 57L45 0h15L38 82H22z"/></g>
+    <g transform="translate(70)"><path d="M0 0h58v13H15v20h37v13H15v23h43v13H0z"/></g>
+    <g transform="translate(138)"><path d="M0 0h15v82H0zM13 0h24c18 0 27 10 27 24 0 12-6 20-17 23l20 35H50L31 49H13V36h22c9 0 14-4 14-12s-5-11-14-11H13z"/></g>
+    <g transform="translate(215)"><path d="M0 0h65v14H40v68H25V14H0z"/></g>
+    <g transform="translate(290)"><path d="M0 0h15v82H0z"/></g>
+    <g transform="translate(325)"><path d="M62 8L53 20c-6-5-12-7-19-7-13 0-21 10-21 28s8 28 22 28c7 0 13-3 19-8l9 11c-8 8-18 12-29 12C11 84-2 67-2 41S11-2 34-2c12 0 21 3 28 10z"/></g>
+    <g transform="translate(397)"><path d="M23 0h18l27 82H52l-6-20H17l-6 20H-5zm-2 49h21L32 16z"/></g>
+    <g transform="translate(475)"><path d="M0 0h15v68h42v14H0z"/></g>
+  </g>
+  <rect x="76" y="284" width="92" height="5" rx="2.5" fill="#80efc0"/>
+  <circle cx="184" cy="286.5" r="2.5" fill="#80efc0" opacity=".65"/>
+  <circle cx="196" cy="286.5" r="2.5" fill="#80efc0" opacity=".35"/>
+</svg>
