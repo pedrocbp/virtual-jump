@@ -5,13 +5,21 @@ static var _saw_polygons: Dictionary = {}
 
 static func plate(canvas: Node2D, size: Vector2, theme: int) -> void:
 	if not _plates.has(theme):
-		_plates[theme] = Style.plate_style(theme)
+		var legacy := StyleBoxFlat.new()
+		legacy.bg_color = Style.color("surface", theme)
+		legacy.border_color = Style.color("support", theme)
+		legacy.set_border_width_all(1)
+		legacy.set_corner_radius_all(5)
+		legacy.anti_aliasing = true
+		if theme == 0:
+			legacy.shadow_color = Color(0.01, 0.025, 0.045, 0.28)
+			legacy.shadow_offset = Vector2(0, 2)
+			legacy.shadow_size = 1
+		_plates[theme] = legacy
 	var rect := Rect2(-size * 0.5, size)
 	canvas.draw_style_box(_plates[theme], rect)
-	# All details stay inside the physical support; no fake ledge.
-	canvas.draw_line(Vector2(rect.position.x + 6, rect.end.y - 4), Vector2(rect.end.x - 6, rect.end.y - 4), Style.color("ink", theme), 1.5, true)
-	if theme == 0:
-		canvas.draw_line(rect.position + Vector2(6, 2), Vector2(rect.end.x - 6, rect.position.y + 2), Color("c4ffe3"), 1, true)
+	# Legacy v1 accent: one restrained highlight near the upper edge.
+	canvas.draw_line(rect.position + Vector2(7, 2), Vector2(rect.end.x - 7, rect.position.y + 2), Style.color("support", theme), 1.8, true)
 
 static func spike(canvas: Node2D, size: Vector2, theme: int, blades := 3) -> void:
 	var half := size * 0.5
