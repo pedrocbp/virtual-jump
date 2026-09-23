@@ -17,21 +17,25 @@ static func spike(canvas: Node2D, size: Vector2, theme: int, blades := 3) -> voi
 	var half := size * 0.5
 	var danger := Style.color("danger", theme)
 	var ink := Style.color("ink", theme)
-	# Production silhouette used before the crystal study: regular triangular
-	# blades over a compact base. Collision and gameplay dimensions stay intact.
-	var base_height := minf(6.0, size.y * 0.24)
-	var base_top := half.y - base_height
-	canvas.draw_rect(Rect2(Vector2(-half.x, base_top), Vector2(size.x, base_height)), danger)
+	# Legacy production silhouette from visual-v1: a compact danger block with
+	# three clear internal blades. Only rendering changes; collision is untouched.
+	var rect := Rect2(-half, size)
+	canvas.draw_rect(rect, Color(danger, 0.12))
+	canvas.draw_polyline(PackedVector2Array([
+		Vector2(-half.x, -half.y), Vector2(half.x, -half.y),
+		Vector2(half.x, half.y), Vector2(-half.x, half.y), Vector2(-half.x, -half.y),
+	]), danger, 1.25, true)
 	var pitch := size.x / float(blades)
 	for i in range(blades):
 		var center_x := -half.x + (float(i) + 0.5) * pitch
 		var blade := PackedVector2Array([
-			Vector2(center_x - pitch * 0.46, base_top),
-			Vector2(center_x, -half.y),
-			Vector2(center_x + pitch * 0.46, base_top),
+			Vector2(center_x - pitch * 0.42, half.y - 1.0),
+			Vector2(center_x, -half.y + (7.0 if i == 1 else 10.0)),
+			Vector2(center_x + pitch * 0.42, half.y - 1.0),
 		])
 		canvas.draw_colored_polygon(blade, danger)
-	canvas.draw_line(Vector2(-half.x, base_top), Vector2(half.x, base_top), ink, 1.5, true)
+		canvas.draw_polyline(blade, ink, 0.9, true)
+	canvas.draw_line(Vector2(-half.x + 3, half.y - 1), Vector2(half.x - 3, half.y - 1), ink, 1.2, true)
 
 static func saw(canvas: Node2D, radius: float, theme: int) -> void:
 	if not _saw_polygons.has(radius):
