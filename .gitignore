@@ -1,6 +1,8 @@
 # Artefatos gerados
 build/
 .godot/
+artifacts/
+html/
 android/build/.gradle/
 android/build/build/
 
