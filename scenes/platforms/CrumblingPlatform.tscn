@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/platforms/crumbling_platform.gd" id="1_crumbling"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_crumbling"]
+size = Vector2(100, 20)
+
+[node name="CrumblingPlatform" type="AnimatableBody2D"]
+script = ExtResource("1_crumbling")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_crumbling")

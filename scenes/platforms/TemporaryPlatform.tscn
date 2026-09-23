@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/platforms/temporary_platform.gd" id="1_temporary"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_temporary"]
+size = Vector2(100, 20)
+
+[node name="TemporaryPlatform" type="StaticBody2D"]
+script = ExtResource("1_temporary")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_temporary")
+
+[node name="Visual" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-50, -10, 50, -10, 50, 10, -50, 10)
+color = Color(0.71, 0.39, 0.91, 1)

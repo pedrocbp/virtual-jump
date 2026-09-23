@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/obstacles/danger_block.gd" id="1_block"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_block"]
+size = Vector2(36, 32)
+
+[node name="DangerBlock" type="Area2D"]
+collision_layer = 2
+collision_mask = 1
+script = ExtResource("1_block")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_block")
+
+[node name="Visual" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-18, -16, 18, -16, 18, 16, -18, 16)
+color = Color(0.89, 0.12, 0.18, 1)
+
+[node name="Warning" type="Line2D" parent="."]
+width = 3.0
+default_color = Color(1, 0.8, 0.8, 1)
+points = PackedVector2Array(-10, -9, 10, 9, 10, -9, -10, 9)

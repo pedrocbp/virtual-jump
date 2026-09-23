@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/obstacles/moving_bar.gd" id="1_bar"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bar"]
+size = Vector2(112, 18)
+
+[node name="MovingBar" type="Area2D"]
+collision_layer = 2
+collision_mask = 1
+script = ExtResource("1_bar")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_bar")
+
+[node name="Visual" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-56, -9, 56, -9, 56, 9, -56, 9)
+color = Color(1, 0.42, 0.15, 1)
+
+[node name="Highlight" type="Line2D" parent="."]
+width = 2.0
+default_color = Color(1, 0.9, 0.68, 1)
+points = PackedVector2Array(-44, -4, 44, -4)
